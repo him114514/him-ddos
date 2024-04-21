@@ -4,7 +4,7 @@ import os
 ip=''
 port=80
 threads = 100
-pack="Hacked by him#1337"
+pack=b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
 e1='''
 **************************************************************
 __     ___            _ _             
