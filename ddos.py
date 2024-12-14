@@ -9,56 +9,57 @@ def load():
     return c 
 '''
 import socket
-import threading
+
 import time
-ip=''
-port=80
-threads = 100
-pack=b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
-e1='''
+from concurrent.futures import ThreadPoolExecutor
+
+
+IP = '127.0.0.1'
+PORT = 80
+THREADS = 100
+PACK = b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
+
+
+e1 = '''
 **************************************************************
 __     ___            _ _             
 \ \   / (_)          | (_)            
  \ \_/ / _ _ __      | |_ _ __   __ _ 
   \   / | | '_ \ _   | | | '_ \ / _` |
    | |  | | | | | |__| | | | | | (_| |
-   |_|  |_|_| |_|\____/|_|_| |_|\__, |
+   |_|  |_|_| |_|\____/|_|_| |_| \__, |
                                  __/ |
                                 |___/
 **************************************************************                                
 '''
 
-print(e1)
-print('Hacked by him#1337\nwelcome to https://space.bilibili.com/590491558 or https://github.com/him114514\n')
 
-class lodS:
+print(e1)
+print('Hacked by him#1337\nWelcome to https://space.bilibili.com/590491558 or https://github.com/him114514\n')
+
+
+
+class Load:
     def __init__(self, host, port, pack):
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.host = host
         self.port = port
         self.pack = pack
-    
+
     def syning(self):
-        print("Connecting...")
-        while True:
+        try:
             
-            try:
-                self.client.connect((self.host, self.port))
-                self.client.send(self.pack)
-                print("\n")
-                
-                print("Connect-IP:{0} Port:{1}".format(self.host, self.port))
-                
-                print("\n")
-                time.sleep(0.5)
-                print("Successfully……")
-            except Exception as error:
-                print("\n")
-                time.sleep(0.5)
-                print("Error:" + str(error))
-                time.sleep(0.5)
-                continue
+            self.client.connect((self.host, self.port))
+            self.client.send(self.pack)
+            print("Connected to {0}:{1}\n".format(self.host ,self.port))
+            print("successful")
+            time.sleep(0.7) 
+        except Exception as error:
+            print("Error: {0}".format(error))
+         
+
+
 
 def input_settings():
     while True:
@@ -70,8 +71,9 @@ def input_settings():
         except ValueError:
             print('输入的不是数字，请重新输入！')
 
+
+
 def start():
-    global ip, threads, port, pack
     while True:
         print('\n--------------------------------------------------')
         ask = input('是否要进行配置，如不配置将使用默认值（适用于80端口的本机）\n输入y以确认，输入n取消（使用默认值）：\n')
@@ -81,21 +83,25 @@ def start():
             threads, port, pack = input_settings()
             break
         elif ask.lower() == "n":
-            ip = '127.0.0.1'
-            threads, port, pack = 100, 80, b'GET / HTTP/1.1\r\nHost: example.com\r\n\r\n'
+            ip = IP
+            threads, port, pack = THREADS, PORT, PACK
             break
         else:
             print('请输入 y 或 n')
 
+    return ip, threads, port, pack
+
+
+
+def run_load_test(ip, port, pack, threads):
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        
+        for h in range(threads):
+            test = Load(ip, port, pack)
+            executor.submit(test.syning) 
+
+
 if __name__ == "__main__":
-    start()
-    pressure = lodS(ip, port, pack)
-    thread_list = []
-    while True:  
-        for _ in range(threads):
-            t = threading.Thread(target=pressure.syning)
-            t.start()
-            thread_list.append(t)
-         
-        for t in thread_list:
-            t.join()
+    ip, threads, port, pack = start() 
+    while True:
+        run_load_test(ip, port, pack, threads)
